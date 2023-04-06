@@ -8,7 +8,20 @@ import Badge from 'react-bootstrap/Badge';
 
 import "./NewsCard.css";
 
-const NewsCard = ({ newsArticle }) => {
+const NewsCard = (props) => {
+
+
+    const newsArticle = props.newsArticle;
+    const user = props.user;
+
+
+    const articlePath = { 
+        pathname: "/article/" + newsArticle.id, 
+        state: {user}
+      };
+
+    
+
 	return (
 		<Card style={{ width: "18rem" }} className="card-background">
 			<Card.Body>
@@ -18,7 +31,7 @@ const NewsCard = ({ newsArticle }) => {
 					{newsArticle.description.substr(0,33)} .....
 				</Card.Text>
 				<Button variant="primary">
-                    <Link to={"/article/" + newsArticle.id}>
+                    <Link to={{pathname: articlePath.pathname, state:{user}}}>
                         <i className="material-icons">Read article</i>
                     </Link>
                 </Button>

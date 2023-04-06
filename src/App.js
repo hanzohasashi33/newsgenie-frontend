@@ -30,7 +30,7 @@ function App() {
 				{token ? <Route path="/" element={<Success token={token} />}></Route> : <Route path="/error" element={<NotLoggedInPage></NotLoggedInPage>}></Route>}
 				<Route path="/login" element={<Login setToken={setToken} />}></Route>
 				<Route path="/create" element={<Create></Create>}></Route>
-				<Route path="/article/:id" element={<Article></Article>}></Route>
+				{token ? <Route path="/article/:id" element={<Article token={token}></Article>}></Route> : <Route path="/error" element={<NotLoggedInPage></NotLoggedInPage>}></Route>}
 			</Routes>
 		</Router>
 	);

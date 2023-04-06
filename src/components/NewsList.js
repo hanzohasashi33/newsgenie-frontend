@@ -42,6 +42,7 @@ const NewsList = (props) => {
 									<NewsCard className="h-100 card-height"
 										key={newsArticle.id}
 										newsArticle={newsArticle}
+                                        user={props.user}
 									></NewsCard>
 								</Col>
 							))}
