@@ -5,6 +5,8 @@ import { Container, Badge } from "react-bootstrap";
 
 import supabase from "../config/supabaseClient";
 import adminAuthClient from "../config/supabaseAdminAuth";
+import PostComment from "./PostComment";
+import CommentsList from "./CommentsList";
 
 const Article = (props) => {
 	const [article, setArticle] = useState(null);
@@ -31,8 +33,8 @@ const Article = (props) => {
             setArticle(data);
             console.log(data);
 
-            const {userData, error} = await adminAuthClient.getUserById(article.user);
-            console.log(userData);
+            // const {userData, error} = await adminAuthClient.getUserById(article.user);
+            // console.log(userData);
         }
     };
 
@@ -52,7 +54,9 @@ const Article = (props) => {
 						<h2>by {article.user}</h2>
                         <h3>Rating: {article.rating}</h3>
                         <Badge className="mb-5" bg="secondary">{article.genre}</Badge>
-						<p>{article.description}</p>
+						<p className="mb-5">{article.description}</p>
+                        <PostComment article={article} token={props.token}></PostComment>
+                        <CommentsList article={article}></CommentsList>
 					</Container>
 				)}
 			</div>
