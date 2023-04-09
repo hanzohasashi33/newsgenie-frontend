@@ -7,6 +7,7 @@ import supabase from "../config/supabaseClient";
 import adminAuthClient from "../config/supabaseAdminAuth";
 import PostComment from "./PostComment";
 import CommentsList from "./CommentsList";
+import SummarizeNews from "./SummarizeNews"
 
 const Article = (props) => {
 	const [article, setArticle] = useState(null);
@@ -55,6 +56,7 @@ const Article = (props) => {
                         <h3>Rating: {article.rating}</h3>
                         <Badge className="mb-5" bg="secondary">{article.genre}</Badge>
 						<p className="mb-5">{article.description}</p>
+                        <SummarizeNews></SummarizeNews>
                         <PostComment article={article} token={props.token}></PostComment>
                         <CommentsList article={article}></CommentsList>
 					</Container>
