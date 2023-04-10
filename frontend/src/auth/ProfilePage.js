@@ -3,10 +3,14 @@ import supabase from "../config/supabaseClient";
 
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import GenreBar from "../components/GenreBar";
+
+
 
 const ProfilePage = (props) => {
 	const [fetchError, setFetchError] = useState(null);
 	const [visits, setVisits] = useState(null);
+	const [genreHist, setGenreHist] = useState(null);
 
 	useEffect(() => {
 		const fetchVisits = async () => {
@@ -28,7 +32,25 @@ const ProfilePage = (props) => {
 			if (data) {
 				setVisits(data);
 				setFetchError(null);
-				// console.log(data);
+				console.log(data);
+
+				const genreMap = new Map();
+				for (let i = 0; i < data.length; i++) {
+					if (genreMap.has(data[i].news.genre)) {
+						genreMap.set(
+							data[i].news.genre,
+							genreMap.get(data[i].news.genre) + 1
+						);
+					} else {
+						genreMap.set(data[i].news.genre, 1);
+					}
+				}
+				console.log(
+					genreMap,
+					Array.from(genreMap.keys()),
+					Array.from(genreMap.values())
+				);
+				setGenreHist(genreMap);
 			}
 		};
 
@@ -40,6 +62,7 @@ const ProfilePage = (props) => {
 			<div className="App-header">
 				<Container>
 					<h1>{props.token.user.email}</h1>
+                    <h2>History</h2>
 					{visits &&
 						visits.map((visit) => {
 							return (
@@ -51,6 +74,9 @@ const ProfilePage = (props) => {
 								</div>
 							);
 						})}
+
+                    <h2>Graphs</h2>
+                    {genreHist && <GenreBar genreHist={genreHist}></GenreBar>}
 				</Container>
 			</div>
 		</div>
