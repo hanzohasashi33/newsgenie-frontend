@@ -11,7 +11,7 @@ const NewsList = (props) => {
 	const [fetchError, setFetchError] = useState(null);
 	const [news, setNews] = useState(null);
 
-	console.log("props: user: " + props.user.id);
+	// console.log("props: user: " + props.user.id);
 
 	useEffect(() => {
 		const fetchNews = async () => {

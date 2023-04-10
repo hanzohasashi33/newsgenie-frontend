@@ -18,7 +18,11 @@ const NewsCard = (props) => {
     const articlePath = { 
         pathname: "/article/" + newsArticle.id, 
         state: {user}
-      };
+    };
+
+    const handleVisit = (e) => {
+        console.log(e);
+    }
 
     
 
@@ -30,7 +34,7 @@ const NewsCard = (props) => {
 				<Card.Text>
 					{newsArticle.description.substr(0,33)} .....
 				</Card.Text>
-				<Button variant="primary">
+				<Button type="submit" onSubmit={handleVisit} variant="primary">
                     <Link to={{pathname: articlePath.pathname, state:{user}}}>
                         <i className="material-icons">Read article</i>
                     </Link>

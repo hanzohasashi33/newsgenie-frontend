@@ -14,7 +14,7 @@ const CommentsList = (props) => {
 
     useEffect(() => {
 		const fetchComments = async () => {
-            console.log(props.article.id);
+            // console.log(props.article.id);
 			const { data, error } = await supabase.from("comments").select().eq("article_id", props.article.id);
 
 			if (error) {   
@@ -24,7 +24,7 @@ const CommentsList = (props) => {
 			if (data) {
 				setComments(data);
 				setFetchError(null);
-                console.log(data);
+                // console.log(data);
 			}
 		};
 

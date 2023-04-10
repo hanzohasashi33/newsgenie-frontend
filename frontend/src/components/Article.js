@@ -14,7 +14,7 @@ const Article = (props) => {
     const [articleUser, setArticleUser] = useState(null)
 
 	const { id } = useParams();
-	console.log(id, props);
+	// console.log(id, props);
 	const navigate = useNavigate();
     
 
@@ -32,7 +32,7 @@ const Article = (props) => {
 
         if (data) {
             setArticle(data);
-            console.log(data);
+            // console.log(data);
 
             // const {userData, error} = await adminAuthClient.getUserById(article.user);
             // console.log(userData);
