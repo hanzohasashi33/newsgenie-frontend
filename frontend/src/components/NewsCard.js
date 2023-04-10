@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Card from 'react-bootstrap/Card';
 import { Button } from "react-bootstrap";
 import Badge from 'react-bootstrap/Badge';
+import supabase from "../config/supabaseClient";
 
 import "./NewsCard.css";
 
@@ -20,8 +21,19 @@ const NewsCard = (props) => {
         state: {user}
     };
 
-    const handleVisit = (e) => {
+    const handleVisit = async (e) => {
         console.log(e);
+        const { data, error } = await supabase
+			.from("visits")
+			.insert([{ article_id: newsArticle.id, user_id: user.id}]);
+
+		if (error) {
+			console.log(error);
+		}
+
+		if (data) {
+			console.log(data);
+		}
     }
 
     
@@ -34,7 +46,7 @@ const NewsCard = (props) => {
 				<Card.Text>
 					{newsArticle.description.substr(0,33)} .....
 				</Card.Text>
-				<Button type="submit" onSubmit={handleVisit} variant="primary">
+				<Button type="submit" onClick={handleVisit} variant="primary">
                     <Link to={{pathname: articlePath.pathname, state:{user}}}>
                         <i className="material-icons">Read article</i>
                     </Link>
