@@ -9,6 +9,7 @@ import Article from "./components/Article";
 
 import Create from "./components/createNews";
 import NotLoggedInPage from "./auth/NotLoggedInPage";
+import ProfilePage from "./auth/ProfilePage";
 
 function App() {
 	const [token, setToken] = useState(false);
@@ -31,6 +32,7 @@ function App() {
 				<Route path="/login" element={<Login setToken={setToken} />}></Route>
 				<Route path="/create" element={<Create></Create>}></Route>
 				{token ? <Route path="/article/:id" element={<Article token={token}></Article>}></Route> : <Route path="/error" element={<NotLoggedInPage></NotLoggedInPage>}></Route>}
+                {token ? <Route path="/profile" element={<ProfilePage token={token}></ProfilePage>}></Route>: <Route path="/error" element={<NotLoggedInPage></NotLoggedInPage>}></Route>}
 			</Routes>
 		</Router>
 	);
