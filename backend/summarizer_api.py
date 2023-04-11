@@ -1,27 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import joblib
-import dill 
+from simplet5 import SimpleT5
 
-import pickle 
-from class_def import SummarizerModel, SummarizerDataModule, SummarizerDataset
 
 app = FastAPI()
+model = SimpleT5()
+model.from_pretrained(model_type="t5", model_name="t5-base")
+model.load_model("t5","../../output/content/outputs/simplet5-epoch-2-train-loss-0.924-val-loss-1.4455/", use_gpu=False)
+print("Model Loaded")
 
-
-class CustomUnpickler(pickle.Unpickler):
-
-    def find_class(self, module, name):
-        if name == 'SummarizerModel':
-            from class_def import SummarizerModel
-            return SummarizerModel
-        return super().find_class(module, name)
-
-pickle_data = CustomUnpickler(open('../model/summarizer_model.pkl', 'rb')).load()
-
-# with open("../model/temp.joblib", 'rb') as file:  
-#     Pickled_model = dill.load(file)
 
 origins = ["*"]
 
@@ -45,4 +33,6 @@ async def root():
 
 @app.post("/summary")
 async def summarize(newsArticle: NewsArticle):
+    newsArticle_to_summarize = "summarize: {}".format(newsArticle)
+    newsArticle = model.predict(newsArticle_to_summarize)
     return newsArticle
