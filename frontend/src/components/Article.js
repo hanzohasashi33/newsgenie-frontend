@@ -56,7 +56,7 @@ const Article = (props) => {
                         <h3>Rating: {article.rating}</h3>
                         <Badge className="mb-5" bg="secondary">{article.genre}</Badge>
 						<p className="mb-5">{article.description}</p>
-                        <SummarizeNews></SummarizeNews>
+                        <SummarizeNews article={article}></SummarizeNews>
                         <PostComment article={article} token={props.token}></PostComment>
                         <CommentsList article={article}></CommentsList>
 					</Container>
