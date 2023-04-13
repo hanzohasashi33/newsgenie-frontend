@@ -47,32 +47,6 @@ const SignupPage = () => {
 	}
 
 	return (
-		// <div>
-		// 	<form onSubmit={handleSubmit}>
-		// 		<input
-		// 			placeholder="Fullname"
-		// 			name="fullName"
-		// 			onChange={handleChange}
-		// 		/>
-
-		// 		<input
-		// 			placeholder="Email"
-		// 			name="email"
-		// 			onChange={handleChange}
-		// 		/>
-
-		// 		<input
-		// 			placeholder="Password"
-		// 			name="password"
-		// 			type="password"
-		// 			onChange={handleChange}
-		// 		/>
-
-		// 		<button type="submit">Submit</button>
-		// 	</form>
-		// 	Already have an account?<Link to="/">Login</Link>
-		// </div>
-
 		<div className="App">
 			<div className="App-header login-dark">
 				<Form onSubmit={handleSubmit}>

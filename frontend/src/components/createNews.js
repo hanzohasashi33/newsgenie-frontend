@@ -7,6 +7,7 @@ import supabase from "../config/supabaseClient";
 import { useNavigate } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import NavBar from "./Navbar";
 
 const Create = () => {
 	const [user, setUser] = useState({});
@@ -58,74 +59,81 @@ const Create = () => {
 		if (data) {
 			console.log(data);
 			setFormError(null);
-            navigate("/");
+			navigate("/");
 		}
 	};
 
 	return (
-		<div className="App">
-			<div className="App-header">
-				<>
-					<h1>Create new news article</h1>
-					<span className="mb-5"></span>
-					<Form onSubmit={handleSubmit}>
-						<Form.Group className="mb-3">
-							<Form.Label htmlFor="headline">
-								Headline:
-							</Form.Label>
-							<Form.Control
-								size="lg"
-								type="text"
-								id="headline"
-								value={headline}
-								placeholder="Enter headline"
-								onChange={(e) => setHeadline(e.target.value)}
-							></Form.Control>
-						</Form.Group>
+		<>
+			<NavBar></NavBar>
+			<div className="App">
+				<div className="App-header">
+					<>
+						<h1>Create new news article</h1>
+						<span className="mb-5"></span>
+						<Form onSubmit={handleSubmit}>
+							<Form.Group className="mb-3">
+								<Form.Label htmlFor="headline">
+									Headline:
+								</Form.Label>
+								<Form.Control
+									size="lg"
+									type="text"
+									id="headline"
+									value={headline}
+									placeholder="Enter headline"
+									onChange={(e) =>
+										setHeadline(e.target.value)
+									}
+								></Form.Control>
+							</Form.Group>
 
-						<br></br>
+							<br></br>
 
-						<Form.Group className="mb-3">
-							<Form.Label htmlFor="description">
-								News Article:
-							</Form.Label>
-							<Form.Control
-								as="textarea"
-								id="description"
-								placeholder="Enter article description"
-								size="lg"
-								value={description}
-								onChange={(e) => setDescription(e.target.value)}
-							></Form.Control>
-						</Form.Group>
+							<Form.Group className="mb-3">
+								<Form.Label htmlFor="description">
+									News Article:
+								</Form.Label>
+								<Form.Control
+									as="textarea"
+									id="description"
+									placeholder="Enter article description"
+									size="lg"
+									value={description}
+									onChange={(e) =>
+										setDescription(e.target.value)
+									}
+								></Form.Control>
+							</Form.Group>
 
-						<br></br>
+							<br></br>
 
-						<Form.Group className="mb-3">
-							<Form.Label htmlFor="genre">Genre:</Form.Label>
-							<Form.Control
-								type="text"
-								id="genre"
-								placeholder="Enter genre"
-								value={genre}
-								onChange={(e) => setGenre(e.target.value)}
-							></Form.Control>
-						</Form.Group>
+							<Form.Group className="mb-3">
+								<Form.Label htmlFor="genre">Genre:</Form.Label>
+								<Form.Control
+									type="text"
+									id="genre"
+									placeholder="Enter genre"
+									value={genre}
+									onChange={(e) => setGenre(e.target.value)}
+								></Form.Control>
+							</Form.Group>
 
-						<br></br>
+							<br></br>
 
-						<Button
-							variant="primary"
-							className="primary"
-							type="submit"
-						>
-							Add news article
-						</Button>
-						{formError && <p>{formError}</p>}
-					</Form>
-				</>
+							<Button
+								variant="primary"
+								className="primary"
+								type="submit"
+							>
+								Add news article
+							</Button>
+							{formError && <p>{formError}</p>}
+						</Form>
+					</>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
