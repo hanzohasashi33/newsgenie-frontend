@@ -3,6 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 import supabase from "../config/supabaseClient";
 
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./loginPage.css";
+
 const Login = ({ setToken }) => {
 	let navigate = useNavigate();
 
@@ -10,7 +15,7 @@ const Login = ({ setToken }) => {
 		email: "",
 		password: "",
 	});
-    
+
 	function handleChange(event) {
 		setFormData((prevFormData) => {
 			return {
@@ -41,24 +46,44 @@ const Login = ({ setToken }) => {
 	}
 
 	return (
-		<div>
-			<form onSubmit={handleSubmit}>
-				<input
-					placeholder="Email"
-					name="email"
-					onChange={handleChange}
-				/>
+		<div className="App">
+			<div className="App-header login-dark">
+				<Form onSubmit={handleSubmit}>
+					<h2 className="sr-only">Login Form</h2>
+					<div className="illustration">
+						<i className="icon ion-ios-locked-outline"></i>
+					</div>
+					<Form.Group className="mb-3">
+						<Form.Label>Email:</Form.Label>
+						<Form.Control
+							type="text"
+							placeholder="Enter Email"
+							name="email"
+							onChange={handleChange}
+						></Form.Control>
+					</Form.Group>
 
-				<input
-					placeholder="Password"
-					name="password"
-					type="password"
-					onChange={handleChange}
-				/>
+					<br></br>
 
-				<button type="submit">Submit</button>
-			</form>
-			Don't have an account? <Link to="/signup">Sign Up</Link>
+					<Form.Group className="mb-3">
+						<Form.Label>Password: </Form.Label>
+						<Form.Control
+							placeholder="Enter password"
+							name="password"
+							type="password"
+							// value={formData.password}
+							onChange={handleChange}
+						></Form.Control>
+					</Form.Group>
+
+					<Button variant="primary" className="primary" type="submit">
+						Login
+					</Button>
+					<p>
+						Don't have an account? <Link to="/signup">Sign Up</Link>
+					</p>
+				</Form>
+			</div>
 		</div>
 	);
 };
