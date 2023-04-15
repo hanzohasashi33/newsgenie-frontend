@@ -38,8 +38,8 @@ const NewsList = (props) => {
 					<div className="news-grid">
 						<Row>
 							{news.map((newsArticle) => (
-								<Col md={3} className="mb-2" key={newsArticle.id}>
-									<NewsCard className="h-100 card-height"
+								<Col md={3} className="mb-2 wrapper" key={newsArticle.id}>
+									<NewsCard className="h-100 card-height d-flex flex-fill"
 										key={newsArticle.id}
 										newsArticle={newsArticle}
                                         user={props.user}

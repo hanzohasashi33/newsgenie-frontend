@@ -4,7 +4,7 @@ import supabase from "../config/supabaseClient";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import GenreBar from "../components/GenreBar";
-
+import NavBar from "../components/Navbar";
 
 
 const ProfilePage = (props) => {
@@ -58,28 +58,33 @@ const ProfilePage = (props) => {
 	}, []);
 
 	return (
-		<div className="App">
-			<div className="App-header">
-				<Container>
-					<h1>{props.token.user.email}</h1>
-                    <h2>History</h2>
-					{visits &&
-						visits.map((visit) => {
-							return (
-								<div key={visit.id}>
-									<p>
-										{visit.news.id} - {visit.news.genre} at{" "}
-										{visit.created_at}
-									</p>
-								</div>
-							);
-						})}
+		<>
+            <NavBar></NavBar>
+			<div className="App">
+				<div className="App-header">
+					<Container>
+						<h1>{props.token.user.email}</h1>
+						<h2>History</h2>
+						{visits &&
+							visits.map((visit) => {
+								return (
+									<div key={visit.id}>
+										<p>
+											{visit.news.id} - {visit.news.genre}{" "}
+											at {visit.created_at}
+										</p>
+									</div>
+								);
+							})}
 
-                    <h2>Graphs</h2>
-                    {genreHist && <GenreBar genreHist={genreHist}></GenreBar>}
-				</Container>
+						<h2>Graphs</h2>
+						{genreHist && (
+							<GenreBar genreHist={genreHist}></GenreBar>
+						)}
+					</Container>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 

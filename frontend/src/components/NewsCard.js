@@ -39,7 +39,7 @@ const NewsCard = (props) => {
     
 
 	return (
-		<Card style={{ width: "18rem" }} className="card-background">
+		<Card style={{ width: "18rem" }} className={`card-background ${props.className}`}>
 			<Card.Body>
 				<Card.Title>{newsArticle.headline}</Card.Title> 
                 <Badge bg="secondary">{newsArticle.genre}</Badge>
