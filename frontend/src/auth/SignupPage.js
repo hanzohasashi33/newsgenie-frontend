@@ -15,7 +15,7 @@ const SignupPage = () => {
 		password: "",
 	});
 
-	console.log(formData);
+	// console.log(formData);
 
 	function handleChange(event) {
 		setFormData((prevFormData) => {
@@ -40,7 +40,23 @@ const SignupPage = () => {
 				},
 			});
 			if (error) throw error;
-			alert("Check your email for verification link");
+			// alert("Check your email for verification link");
+			// console.log(data);
+			if (data) {
+				// console.log(data.user.id);
+				// console.log(formData.fullName);
+				const { data2, error2 } = await supabase
+					.from("users")
+					.update({ first_name: formData.fullName })
+					.eq("id", data.user.id);
+				setFormData((prevFormData) => {
+					return {
+						fullName: "",
+						email: "",
+						password: "",
+					};
+				});
+			}
 		} catch (error) {
 			alert(error);
 		}
@@ -60,12 +76,12 @@ const SignupPage = () => {
 						<Form.Control
 							type="text"
 							placeholder="Enter Full Name"
-							name="name"
+							name="fullName"
 							onChange={handleChange}
 						></Form.Control>
 					</Form.Group>
 
-                    <br></br>
+					<br></br>
 
 					<Form.Group className="mb-3">
 						<Form.Label>Email:</Form.Label>
@@ -77,7 +93,7 @@ const SignupPage = () => {
 						></Form.Control>
 					</Form.Group>
 
-                    <br></br>
+					<br></br>
 
 					<Form.Group className="mb-3">
 						<Form.Label>Password: </Form.Label>
@@ -94,9 +110,8 @@ const SignupPage = () => {
 						Signup
 					</Button>
 
-                    <br></br>
-                    <br></br>
-
+					<br></br>
+					<br></br>
 
 					<p>
 						Already have an account?<Link to="/login">Login</Link>
