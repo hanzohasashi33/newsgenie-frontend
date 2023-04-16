@@ -9,26 +9,15 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./Navbar";
 
-const Create = () => {
-	const [user, setUser] = useState({});
+import logger from "../config/logger";
+
+const Create = (props) => {
 	const [headline, setHeadline] = useState("");
 	const [description, setDescription] = useState("");
 	const [genre, setGenre] = useState("");
 	const [formError, setFormError] = useState(null);
 
 	const navigate = useNavigate();
-
-	useEffect(() => {
-		async function getUserData() {
-			await supabase.auth.getUser().then((value) => {
-				if (value.data?.user) {
-					console.log(value.data.user);
-					setUser(value.data.user);
-				}
-			});
-		}
-		getUserData();
-	}, []);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -38,14 +27,15 @@ const Create = () => {
 			return;
 		}
 
-		console.log(headline, description, genre);
+		// console.log(headline, description, genre);
 		setHeadline("");
 		setDescription("");
 		setGenre("");
 		setFormError(null);
 
 		const rating = 0;
-		const userId = user.id;
+		const userId = props.token.user.id;
+		const userEmail = props.token.user.email;
 
 		const { data, error } = await supabase
 			.from("news")
@@ -53,11 +43,15 @@ const Create = () => {
 
 		if (error) {
 			console.log(error);
+			logger(
+				"create_article",
+				userEmail,
+				"error creating article",
+				"error"
+			);
 			setFormError("Please fill in all the fields correctly");
-		}
-
-		if (data) {
-			console.log(data);
+		} else {
+			logger("create_article", userEmail, "created article", "info");
 			setFormError(null);
 			navigate("/");
 		}

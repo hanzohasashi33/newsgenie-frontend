@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
 import Button from "react-bootstrap/Button";
+import logger from "../config/logger";
+
 
 const SummarizeNews = (props) => {
 	const [summarizedArticle, setSummarizedArticle] = useState(null);
@@ -18,9 +20,11 @@ const SummarizeNews = (props) => {
 			.then((response) => response.json())
 			.then((response) => {
 				// console.log(response);
+                logger("summarize_article", props.token.user.email, "summarized article", "info")
 				setSummarizedArticle(response[0]);
 			})
 			.catch((err) => {
+                logger("summarize_article", props.token.user.email, "error summarizing article", "error")
 				console.log(err);
 			});
 	};

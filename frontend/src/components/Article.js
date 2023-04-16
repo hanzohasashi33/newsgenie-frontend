@@ -69,7 +69,7 @@ const Article = (props) => {
 								{article.genre}
 							</Badge>
 							<p className="mb-5">{article.description}</p>
-							<SummarizeNews article={article}></SummarizeNews>
+							<SummarizeNews article={article} token={props.token}></SummarizeNews>
 							<PostComment
 								article={article}
 								token={props.token}

@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
+import logger from "../config/logger";
 
 const NavBar = (props) => {
 	const navigate = useNavigate();
@@ -16,6 +17,7 @@ const NavBar = (props) => {
 	async function signOutUser() {
 		// setSession(null);
 		const { error } = await supabase.auth.signOut();
+        logger("logout", "user", "logging out", "info");
 		sessionStorage.removeItem("token");
 		navigate("/login");
 	}

@@ -1,0 +1,13 @@
+16/04/2023 15:31:39 ae84a228-dc3d-11ed-a8ec-ec5c682c4910 INFO login hanzoapi1@gmail.com logged in
+16/04/2023 15:32:18 c56c8a13-dc3d-11ed-8720-ec5c682c4910 ERROR login sivani@gmail.com error logging in
+16/04/2023 15:37:27 7dacbd9a-dc3e-11ed-8199-ec5c682c4910 INFO login hanzoapi1@gmail.com logged in
+16/04/2023 15:37:28 7e40a0e4-dc3e-11ed-af75-ec5c682c4910 INFO login hanzoapi1@gmail.com logged in
+16/04/2023 15:40:23 e6f3c479-dc3e-11ed-919a-ec5c682c4910 ERROR create_article hanzoapi1@gmail.com error creating article
+16/04/2023 15:43:39 5bba6d95-dc3f-11ed-8fac-ec5c682c4910 INFO create_article hanzoapi1@gmail.com created article
+16/04/2023 15:57:08 3dcd512a-dc41-11ed-8e49-ec5c682c4910 ERROR create_comment hanzoapi1@gmail.com error creating comment
+16/04/2023 15:57:31 4b382b4d-dc41-11ed-88ee-ec5c682c4910 INFO create_comment hanzoapi1@gmail.com created comment
+16/04/2023 15:58:02 5e0a5e2e-dc41-11ed-af22-ec5c682c4910 INFO create_comment hanzoapi1@gmail.com created comment
+16/04/2023 15:59:13 8883a2b6-dc41-11ed-868f-ec5c682c4910 INFO login hanzoapi1@gmail.com logged in
+16/04/2023 16:00:10 aa079574-dc41-11ed-ab4f-ec5c682c4910 INFO login sivanisiva3999@gmail.com logged in
+16/04/2023 16:01:10 cdde88f6-dc41-11ed-af67-ec5c682c4910 INFO login hanzoapi1@gmail.com logged in
+16/04/2023 16:01:13 cff0c09b-dc41-11ed-b919-ec5c682c4910 INFO logout user logging out

@@ -8,6 +8,8 @@ import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./loginPage.css";
 
+import logger from "../config/logger";
+
 const Login = ({ setToken }) => {
 	let navigate = useNavigate();
 
@@ -37,10 +39,12 @@ const Login = ({ setToken }) => {
 			if (error) throw error;
 			console.log(data);
 			setToken(data);
+			logger("login", formData.email, "logged in", "info");
 			navigate("/");
 
 			//   alert('Check your email for verification link')
 		} catch (error) {
+			logger("login", formData.email, "error logging in", "error");
 			alert(error);
 		}
 	}

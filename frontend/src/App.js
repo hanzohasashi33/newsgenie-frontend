@@ -32,7 +32,7 @@ function App() {
 				{token ? <Route path="/" element={<Success token={token} />}></Route> : <Route path="/error" element={<NotLoggedInPage></NotLoggedInPage>}></Route>}
 				<Route path="/login" element={<Login setToken={setToken} />}></Route>
                 <Route path="/signup" element={<SignupPage></SignupPage>}></Route>
-				<Route path="/create" element={<Create></Create>}></Route>
+				{token ? <Route path="/create" element={<Create token={token}></Create>}></Route> : <Route path="/error" element={<NotLoggedInPage></NotLoggedInPage>}></Route>}
 				{token ? <Route path="/article/:id" element={<Article token={token}></Article>}></Route> : <Route path="/error" element={<NotLoggedInPage></NotLoggedInPage>}></Route>}
                 {token ? <Route path="/profile" element={<ProfilePage token={token}></ProfilePage>}></Route>: <Route path="/error" element={<NotLoggedInPage></NotLoggedInPage>}></Route>}
 			</Routes>

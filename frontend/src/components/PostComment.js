@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import supabase from "../config/supabaseClient";
 import { useNavigate } from "react-router-dom";
 
+import logger from "../config/logger";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -24,11 +26,11 @@ const PostComment = (props) => {
 			return;
 		}
 
-		console.log(comment);
+		// console.log(comment);
 		setComment("");
 		setFormError(null);
 
-        console.log(props.article.id, props.token.user.id);
+        // console.log(props.article.id, props.token.user.id);
         const articleId = props.article.id;
         const userId = props.token.user.id;
 
@@ -38,14 +40,13 @@ const PostComment = (props) => {
 
 		if (error) {
 			console.log(error);
+            logger("create_comment", props.token.user.email, "error creating comment", "error");
 			setFormError("Please fill in all the fields correctly");
 		}
 
-		if (data) {
-			console.log(data);
+		else {
+            logger("create_comment", props.token.user.email, "created comment", "info");
 			setFormError(null);
-            navigate("/");
-            window.location.reload();
 		}
 	};
 
