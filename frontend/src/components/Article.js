@@ -3,9 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Container, Badge } from "react-bootstrap";
 import NavBar from "./Navbar";
-
-import supabase from "../config/supabaseClient";
-import adminAuthClient from "../config/supabaseAdminAuth";
 import PostComment from "./PostComment";
 import CommentsList from "./CommentsList";
 import SummarizeNews from "./SummarizeNews";
@@ -63,7 +60,7 @@ const Article = (props) => {
 								article={article}
 								token={props.token}
 							></PostComment>
-							{/* <CommentsList article={article}></CommentsList> */}
+							<CommentsList article={article}></CommentsList>
 						</Container>
 					)}
 				</div>

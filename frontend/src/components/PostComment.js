@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-
-import supabase from "../config/supabaseClient";
 import { useNavigate } from "react-router-dom";
-
-import logger from "../config/logger";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col } from "react-bootstrap";
+
+
+
 
 const PostComment = (props) => {
 	const [comment, setComment] = useState("");
@@ -31,23 +28,33 @@ const PostComment = (props) => {
 		setFormError(null);
 
         // console.log(props.article.id, props.token.user.id);
-        const articleId = props.article.id;
+        const articleId = props.article._id;
         const userId = props.token.user.id;
+        const userEmail = props.token.user.email;
 
-		const { data, error } = await supabase
-			.from("comments")
-			.insert([{ article_id: articleId, author_id: userId, comment: comment }]);
 
-		if (error) {
-			console.log(error);
-            logger("create_comment", props.token.user.email, "error creating comment", "error");
-			setFormError("Please fill in all the fields correctly");
-		}
-
-		else {
-            logger("create_comment", props.token.user.email, "created comment", "info");
-			setFormError(null);
-		}
+        fetch("http://localhost:8000/create_comment", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+                user: {id: userId, email: userEmail},
+                comment: comment,
+                article_id: articleId,
+                created_at: new Date()
+			}),
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				console.log(response);
+                setFormError(null);
+                window.location.reload();
+			})
+			.catch((err) => {
+                console.error(err);   
+                setFormError("Please fill in all the fields correctly");             
+			});
 	};
 
 	return (

@@ -123,3 +123,25 @@ async def get_article(request: Request):
     article_collection = client["newsgenie"]["articles"]
     result = article_collection.find_one({"_id": ObjectId(articleId)})
     return {"article": result}
+
+
+
+@app.post("/create_comment", status_code=status.HTTP_201_CREATED)
+async def create_comment(request: Request):
+    comment = await request.json()
+    comment_collection = client["newsgenie"]["comments"]
+    result = comment_collection.insert_one(comment)
+    ack = "ok"
+    return {"insertion": ack}
+
+
+@app.post("/get_comments", status_code=status.HTTP_202_ACCEPTED)
+async def get_comments(request: Request):
+    articleId = await request.json()
+    articleId = articleId["id"]
+    print(articleId)
+    comment_collection = client["newsgenie"]["comments"]
+    comments = []
+    for comment in comment_collection.find({"article_id": articleId}):
+        comments.append(comment)
+    return {"comments": comments}

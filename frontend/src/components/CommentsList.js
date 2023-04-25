@@ -1,9 +1,4 @@
 import React, {useState, useEffect} from "react";
-
-import supabase from "../config/supabaseClient";
-
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { Container } from "react-bootstrap";
 
 
@@ -14,18 +9,27 @@ const CommentsList = (props) => {
 
     useEffect(() => {
 		const fetchComments = async () => {
-            // console.log(props.article.id);
-			const { data, error } = await supabase.from("comments").select().eq("article_id", props.article.id);
+            console.log(props.article._id);
 
-			if (error) {   
-				setFetchError("Could not fetch the news articles");
-				setComments(null);
-			}
-			if (data) {
-				setComments(data);
-				setFetchError(null);
-                // console.log(data);
-			}
+            fetch("http://localhost:8000/get_comments", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+                id: props.article._id
+			}),
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				// console.log(response);
+                setComments(response.comments);
+                setFetchError(null);
+			})
+			.catch((err) => {
+                console.error(err);   
+                setFetchError("Could not fetch the comments");             
+			});
 		};
 
 		fetchComments();
@@ -35,8 +39,8 @@ const CommentsList = (props) => {
         <Container>
             {comments && comments.map((comment) => {
                 return (
-                    <div key={comment.id}>
-                        <p>{comment.comment} by {comment.author_id}</p>
+                    <div key={comment._id}>
+                        <p>{comment.comment} by {comment.user.email}</p>
                         <hr></hr>
                     </div>
                 )
