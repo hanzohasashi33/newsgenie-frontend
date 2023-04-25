@@ -14,26 +14,15 @@ const NewsList = (props) => {
 
 	useEffect(() => {
 		const fetchNews = async () => {
-			const { data, error } = await supabase.from("news").select(
-				`
-            id,
-            created_at,
-            headline,
-            genre,
-            description,
-            rating,
-            users (id, email, first_name)
-        `
-			);
-
-			if (error) {
-				setFetchError("Could not fetch the news articles");
-				setNews(null);
-			}
-			if (data) {
-				setNews(data);
-				setFetchError(null);
-			}
+			fetch('http://localhost:8000/get_articles').then(data => {
+                return data.json();
+            })
+            .then(articles => {
+                console.log(articles);
+                setNews(articles);
+            }).catch(err => {
+                console.error(err);
+            })
 		};
 
 		fetchNews();
@@ -50,11 +39,11 @@ const NewsList = (props) => {
 								<Col
 									md={3}
 									className="mb-2 wrapper"
-									key={newsArticle.id}
+									key={newsArticle._id}
 								>
 									<NewsCard
 										className="h-100 card-height d-flex flex-fill"
-										key={newsArticle.id}
+										key={newsArticle._id}
 										newsArticle={newsArticle}
 										user={props.user}
 									></NewsCard>

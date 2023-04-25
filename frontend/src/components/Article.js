@@ -19,34 +19,23 @@ const Article = (props) => {
 	const navigate = useNavigate();
 
 	const fetchArticle = async () => {
-		const { data, error } = await supabase
-			.from("news")
-			.select(
-				`
-            id,
-            created_at,
-            headline,
-            genre,
-            description,
-            rating,
-            users (id, email, first_name)
-        `
-			)
-			.eq("id", id)
-			.single();
-
-		if (error) {
-			console.log(error);
-			navigate("/", { replace: true });
-		}
-
-		if (data) {
-			setArticle(data);
-			// console.log(data);
-
-			// const {userData, error} = await adminAuthClient.getUserById(article.user);
-			// console.log(userData);
-		}
+		fetch("http://localhost:8000/get_article", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+                id: id
+			}),
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				const articletemp = response.article;
+                setArticle(articletemp);
+			})
+			.catch((err) => {
+                console.error(err);                
+			});
 	};
 
 	useEffect(() => {
@@ -63,7 +52,7 @@ const Article = (props) => {
 						<Container>
                             <br></br>
 							<h1>{article.headline}</h1>
-							<h2>by {article.users.first_name}</h2>
+							<h2>by {article.user.email}</h2>
 							<h3>Rating: {article.rating}</h3>
 							<Badge className="mb-5" bg="secondary">
 								{article.genre}
@@ -74,7 +63,7 @@ const Article = (props) => {
 								article={article}
 								token={props.token}
 							></PostComment>
-							<CommentsList article={article}></CommentsList>
+							{/* <CommentsList article={article}></CommentsList> */}
 						</Container>
 					)}
 				</div>

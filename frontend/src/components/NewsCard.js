@@ -17,24 +17,24 @@ const NewsCard = (props) => {
 
 
     const articlePath = { 
-        pathname: "/article/" + newsArticle.id, 
+        pathname: "/article/" + newsArticle._id, 
         state: {user}
     };
 
-    const handleVisit = async (e) => {
-        console.log(e);
-        const { data, error } = await supabase
-			.from("visits")
-			.insert([{ article_id: newsArticle.id, user_id: user.id}]);
+    // const handleVisit = async (e) => {
+    //     console.log(e);
+    //     const { data, error } = await supabase
+	// 		.from("visits")
+	// 		.insert([{ article_id: newsArticle.id, user_id: user.id}]);
 
-		if (error) {
-			console.log(error);
-		}
+	// 	if (error) {
+	// 		console.log(error);
+	// 	}
 
-		if (data) {
-			console.log(data);
-		}
-    }
+	// 	if (data) {
+	// 		console.log(data);
+	// 	}
+    // }
 
     
 
@@ -46,7 +46,7 @@ const NewsCard = (props) => {
 				<Card.Text>
 					{newsArticle.description.substr(0,33)} .....
 				</Card.Text>
-				<Button type="submit" onClick={handleVisit} variant="primary">
+				<Button type="submit" variant="primary">
                     <Link to={{pathname: articlePath.pathname, state:{user}}}>
                         <i className="material-icons">Read article</i>
                     </Link>

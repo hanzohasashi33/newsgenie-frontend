@@ -37,24 +37,26 @@ const Create = (props) => {
 		const userId = props.token.user.id;
 		const userEmail = props.token.user.email;
 
-		const { data, error } = await supabase
-			.from("news")
-			.insert([{ user: userId, headline, description, genre, rating }]);
-
-		if (error) {
-			console.log(error);
-			logger(
-				"create_article",
-				userEmail,
-				"error creating article",
-				"error"
-			);
-			setFormError("Please fill in all the fields correctly");
-		} else {
-			logger("create_article", userEmail, "created article", "info");
-			setFormError(null);
-			navigate("/");
-		}
+        fetch("http://localhost:8000/create_article", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+                user: {id: userId, email: userEmail},
+                headline: headline,
+                description: description,
+                genre: genre, 
+                rating: 0
+			}),
+		})
+			.then((response) => response.json())
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((err) => {
+                console.error(err);                
+			});
 	};
 
 	return (
