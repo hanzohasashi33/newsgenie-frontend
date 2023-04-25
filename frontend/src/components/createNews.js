@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-
-import supabase from "../config/supabaseClient";
 import { useNavigate } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./Navbar";
 
-import logger from "../config/logger";
 
 const Create = (props) => {
 	const [headline, setHeadline] = useState("");

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import supabase from "../config/supabaseClient";
-
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import GenreBar from "../components/GenreBar";
@@ -14,35 +12,37 @@ const ProfilePage = (props) => {
 
 	useEffect(() => {
 		const fetchVisits = async () => {
-			const { data, error } = await supabase
-				.from("visits")
-				.select(
-					`
-                id,
-                created_at,
-                news (id, genre)
-            `
-				)
-				.eq("user_id", props.token.user.id);
 
-			if (error) {
-				setFetchError("Could not fetch the news articles");
-				setVisits(null);
-			}
-			if (data) {
-				setVisits(data);
+            fetch("http://localhost:8000/get_visits", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+                userId: props.token.user.id
+			}),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				// console.log(response);
+
+                data = data.visits;
+
+                setVisits(data);
 				setFetchError(null);
-				console.log(data);
+				// console.log(data);
+
+            
 
 				const genreMap = new Map();
 				for (let i = 0; i < data.length; i++) {
-					if (genreMap.has(data[i].news.genre)) {
+					if (genreMap.has(data[i].article.newsArticle.genre)) {
 						genreMap.set(
-							data[i].news.genre,
-							genreMap.get(data[i].news.genre) + 1
+							data[i].article.newsArticle.genre,
+							genreMap.get(data[i].article.newsArticle.genre) + 1
 						);
 					} else {
-						genreMap.set(data[i].news.genre, 1);
+						genreMap.set(data[i].article.newsArticle.genre, 1);
 					}
 				}
 				console.log(
@@ -51,7 +51,12 @@ const ProfilePage = (props) => {
 					Array.from(genreMap.values())
 				);
 				setGenreHist(genreMap);
-			}
+			})
+			.catch((err) => {
+                console.error(err);   
+                setFetchError("Could not fetch the news articles");
+				setVisits(null);             
+			});
 		};
 
 		fetchVisits();
@@ -68,9 +73,9 @@ const ProfilePage = (props) => {
 						{visits &&
 							visits.map((visit) => {
 								return (
-									<div key={visit.id}>
+									<div key={visit._id}>
 										<p>
-											{visit.news.id} - {visit.news.genre}{" "}
+											{visit.article.newsArticle._id} - {visit.article.newsArticle.genre}{" "}
 											at {visit.created_at}
 										</p>
 									</div>

@@ -18,17 +18,13 @@ fmt = "{message}"
 logger.add("./backend_logs.log", format=fmt)
 
 app = FastAPI()
-# model = SimpleT5()
-# model.from_pretrained(model_type="t5", model_name="t5-base")
-# model.load_model("t5","../../output/content/outputs/simplet5-epoch-2-train-loss-0.924-val-loss-1.4455/", use_gpu=False)
-# print("Model Loaded")
+model = SimpleT5()
+model.from_pretrained(model_type="t5", model_name="t5-base")
+model.load_model("t5","../../output/content/outputs/simplet5-epoch-2-train-loss-0.924-val-loss-1.4455/", use_gpu=False)
+print("Model Loaded")
 
 client = MongoClient("localhost", 27017)
 print("Connected to MongoDB")
-
-db = client["newsgenie"]
-news_collection = db["news"]
-
 
 origins = ["*"]
 
@@ -74,7 +70,7 @@ async def root():
 @app.post("/summary")
 async def summarize(newsArticle: NewsArticle):
     newsArticle_to_summarize = "summarize: {}".format(newsArticle)
-    # newsArticle = model.predict(newsArticle_to_summarize)
+    newsArticle = model.predict(newsArticle_to_summarize)
     return newsArticle
 
 
@@ -139,9 +135,31 @@ async def create_comment(request: Request):
 async def get_comments(request: Request):
     articleId = await request.json()
     articleId = articleId["id"]
-    print(articleId)
     comment_collection = client["newsgenie"]["comments"]
     comments = []
     for comment in comment_collection.find({"article_id": articleId}):
         comments.append(comment)
     return {"comments": comments}
+
+
+
+@app.post("/post_visit", status_code=status.HTTP_201_CREATED)
+async def post_visit(request: Request):
+    visit = await request.json()
+    visit_collection = client["newsgenie"]["visits"]
+    result = visit_collection.insert_one(visit)
+    ack = result.acknowledged
+    return {"insertion": ack}
+
+
+@app.post("/get_visits", status_code=status.HTTP_202_ACCEPTED)
+async def get_visits(request: Request):
+    userId = await request.json()
+    userId = userId["userId"]
+    # print(userId)
+    visit_collection = client["newsgenie"]["visits"]    
+    visits = []
+    for visit in visit_collection.find({"user.id" : userId}):
+        visits.append(visit)
+    # print(visits)
+    return {'visits': visits}
