@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-
-import { createClient } from "@supabase/supabase-js";
-import { Auth } from "@supabase/auth-ui-react";
 import { useNavigate } from "react-router-dom";
 
-import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -13,6 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import supabase from "../config/supabaseClient";
 import NewsList from "../components/NewsList";
 import NavBar from "../components/Navbar";
+import logger from "../config/logger";
 
 function Success(props) {
 	// const [session, setSession] = useState(null);
@@ -21,7 +17,14 @@ function Success(props) {
 
 	async function signOutUser() {
 		// setSession(null);
+        const logoutUser = props.token.user.email;
+        
 		const { error } = await supabase.auth.signOut();
+        if(error) {
+            logger("logout", props.token.user.email, "error logging out", "error");
+        } else {
+            logger("logout", props.token.user.email, "logged out", "info");
+        }
 		sessionStorage.removeItem("token");
 		navigate("/login");
 	}

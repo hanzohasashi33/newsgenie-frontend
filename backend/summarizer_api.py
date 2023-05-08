@@ -19,7 +19,7 @@ logger.add("./backend_logs.log", format=fmt)
 
 app = FastAPI()
 model = SimpleT5()
-model.from_pretrained(model_type="t5", model_name="t5-base")
+# model.from_pretrained(model_type="t5", model_name="t5-base")
 model.load_model("t5","../../output/content/outputs/simplet5-epoch-2-train-loss-0.924-val-loss-1.4455/", use_gpu=False)
 print("Model Loaded")
 
@@ -90,15 +90,27 @@ async def writelog(logMessage: LogMessage):
 
 
 
+def logMessage(type, action, user, message):
+    logId = uuid.uuid1()
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    if type == "INFO":
+        logger.info(f"{dt_string} {logId} INFO {action} {user} {message}")
+    else: 
+        logger.error(f"{dt_string} {logId} ERROR {action} {user} {message}")
+
+
     
 @app.post("/create_article", status_code=status.HTTP_201_CREATED)
 async def create_article(request: Request):
     article = await request.json()
     article_collection = client["newsgenie"]["articles"]
-    print(article)
     result = article_collection.insert_one(article)
-    ack = "ok"
-    return {"insertion": ack}
+    if result.acknowledged:
+        logMessage("INFO","create_article", article["user"]["email"], "created article")
+    else:
+        logMessage("ERROR","create_article", article["user"]["email"], "failed to create article")
+    return {"insertion": result.acknowledged}
 
 
 
@@ -127,8 +139,13 @@ async def create_comment(request: Request):
     comment = await request.json()
     comment_collection = client["newsgenie"]["comments"]
     result = comment_collection.insert_one(comment)
-    ack = "ok"
-    return {"insertion": ack}
+    if result.acknowledged:
+        logMessage("INFO","create_comment", comment["user"]["email"], "added comment")
+    else:
+        logMessage("ERROR","create_comment", comment["user"]["email"], "failed to add comment")
+    return {"insertion": result.acknowledged}
+
+
 
 
 @app.post("/get_comments", status_code=status.HTTP_202_ACCEPTED)
@@ -148,18 +165,15 @@ async def post_visit(request: Request):
     visit = await request.json()
     visit_collection = client["newsgenie"]["visits"]
     result = visit_collection.insert_one(visit)
-    ack = result.acknowledged
-    return {"insertion": ack}
+    return {"insertion": result.acknowledged}
 
 
 @app.post("/get_visits", status_code=status.HTTP_202_ACCEPTED)
 async def get_visits(request: Request):
     userId = await request.json()
     userId = userId["userId"]
-    # print(userId)
     visit_collection = client["newsgenie"]["visits"]    
     visits = []
     for visit in visit_collection.find({"user.id" : userId}):
         visits.append(visit)
-    # print(visits)
     return {'visits': visits}
