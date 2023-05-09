@@ -12,6 +12,8 @@ import NotLoggedInPage from "./auth/NotLoggedInPage";
 import ProfilePage from "./auth/ProfilePage";
 import SignupPage from "./auth/SignupPage";
 
+import * as Sentry from "@sentry/react";
+
 function App() {
 	const [token, setToken] = useState(false);
 

@@ -17,7 +17,11 @@ const NavBar = (props) => {
 	async function signOutUser() {
 		// setSession(null);
 		const { error } = await supabase.auth.signOut();
-        logger("logout", "user", "logging out", "info");
+        if(error) {
+            logger("logout", props.usermail, "error logging out", "error");
+        } else {
+            logger("logout", props.usermail, "logging out", "info");
+        }
 		sessionStorage.removeItem("token");
 		navigate("/login");
 	}

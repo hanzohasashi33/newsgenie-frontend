@@ -64,7 +64,7 @@ const ProfilePage = (props) => {
 
 	return (
 		<>
-            <NavBar></NavBar>
+            <NavBar usermail={props.token.user.email}></NavBar>
 			<div className="App">
 				<div className="App-header">
 					<Container>

@@ -20,9 +20,11 @@ function Success(props) {
         const logoutUser = props.token.user.email;
         
 		const { error } = await supabase.auth.signOut();
+        console.log(logoutUser);
         if(error) {
             logger("logout", logoutUser, "error logging out", "error");
         } else {
+            console.log(logoutUser);
             logger("logout", logoutUser, "logged out", "info");
         }
 		sessionStorage.removeItem("token");
@@ -31,7 +33,7 @@ function Success(props) {
 
 	return (
 		<>
-			<NavBar></NavBar>
+			<NavBar usermail={props.token.user.email}></NavBar>
 
 			<div className="App">
 				<header className="App-header">

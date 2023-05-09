@@ -41,7 +41,7 @@ const Article = (props) => {
 
 	return (
 		<>
-            <NavBar></NavBar>
+            <NavBar usermail={props.token.user.mail}></NavBar>
 			<div className="App">
 				<div className="App-header">
                     
