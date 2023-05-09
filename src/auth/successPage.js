@@ -21,9 +21,9 @@ function Success(props) {
         
 		const { error } = await supabase.auth.signOut();
         if(error) {
-            logger("logout", props.token.user.email, "error logging out", "error");
+            logger("logout", logoutUser, "error logging out", "error");
         } else {
-            logger("logout", props.token.user.email, "logged out", "info");
+            logger("logout", logoutUser, "logged out", "info");
         }
 		sessionStorage.removeItem("token");
 		navigate("/login");
