@@ -1,7 +1,7 @@
 FROM node:14-alpine
 
 # Set up the working directory
-WORKDIR ./
+WORKDIR /app
 
 # Copy the application files
 COPY package*.json ./
